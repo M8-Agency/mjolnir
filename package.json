@@ -1,0 +1,35 @@
+{
+  "name": "mjolnir",
+  "version": "1.0.0",
+  "description": "M8 api",
+  "main": "server.js",
+  "scripts": {
+    "test": "standard && node server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/M8-Agency/mjolnir.git"
+  },
+  "keywords": [
+    "node",
+    "api",
+    "sequelize",
+    "expressjs"
+  ],
+  "author": "M8 Agency",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/M8-Agency/mjolnir/issues"
+  },
+  "homepage": "https://github.com/M8-Agency/mjolnir#readme",
+  "dependencies": {
+    "express": "4.16.3",
+    "pg": "^7.4.1",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "4.37.6"
+  },
+  "devDependencies": {
+    "standard": "^11.0.1"
+  }
+}
