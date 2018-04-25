@@ -3,7 +3,7 @@
 const Sequelize = require('sequelize');
 const db = require('../lib/db');
 
-module.exports = function setupUsersModel(config){
+module.exports = function setupUserModel(config){
     const sequelize = db(config)
 
     return sequelize.define('user', {

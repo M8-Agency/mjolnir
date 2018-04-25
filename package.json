@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/M8-Agency/mjolnir#readme",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "express": "4.16.3",
     "pg": "^7.4.1",
     "pg-hstore": "^2.3.2",

@@ -1,5 +1,5 @@
 module.exports = {
-    database : 'mjolnir',
+    database : 'postgres',
     username : 'postgres',
     password : 'root',
     host: 'localhost',
