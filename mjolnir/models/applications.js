@@ -3,13 +3,17 @@
 const Sequelize = require('sequelize');
 const db = require('../lib/db');
 
-module.exports = function setupBrandModel(config){
+module.exports = function setupApplicationModel(config){
     const sequelize = db(config)
 
-    return sequelize.define('brand', {
+    return sequelize.define('application', {
         name : {
             type: Sequelize.STRING, 
             allowNull: false,
+        },
+        brandId : {
+            type: Sequelize.INTEGER, 
+            allowNull: false,            
         }
     })
 };
