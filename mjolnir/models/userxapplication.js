@@ -7,6 +7,16 @@ module.exports = function setupUserxApplicationModel(config){
     const sequelize = db(config)
 
     return sequelize.define('userxapplication', {
-        password: Sequelize.STRING
+        password: {
+            type: Sequelize.STRING
+        },
+        userId:{
+            type: Sequelize.INTEGER, 
+            allowNull: false, 
+        },
+        applicationId:{
+            type: Sequelize.INTEGER, 
+            allowNull: false, 
+        }        
     });
 };

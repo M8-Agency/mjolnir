@@ -4,7 +4,7 @@ module.exports = function responseData(type, response, page){
     response.rows.map((item, index) => {
         data.push({
             "type": type,
-            "id": item.id,
+            "id": (item.id) ? item.id : 0,
             "attributes": item,                    
         })
     })

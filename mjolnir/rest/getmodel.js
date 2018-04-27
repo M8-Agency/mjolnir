@@ -16,6 +16,8 @@ module.exports = function(base){
             
         case '/api/users':
             return userModel(config)
+        
+        case '/api/actionxuser':
+            return actionxUserModel(config)
     }
-
 }

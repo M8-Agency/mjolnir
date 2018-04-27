@@ -10,6 +10,8 @@ module.exports = () => {
     app.use('/actions', rest());
     app.use('/applications', rest());
     app.use('/users', rest());
+    app.use('/actionxuser', rest());
+    app.use('/userxapplication', rest());
 
     app.use((err, req, res, next) => {
         res.status(500).send({ 
