@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express.Router()
 const config = require('../lib/config')
-const responseData = require('../lib/responseData')
+const responseData = require('./responseData')
 const getmodel = require('./getmodel')
 
 api = () => {    
