@@ -31,7 +31,8 @@ function migrate () {
         force: true 
     }).then(()=>{
         process.exit(0)
-    }).catch(()=> {
+    }).catch((error)=> {
+        console.log('error', error)
         process.exit(1)
     })
 }
