@@ -11,6 +11,8 @@ const setupActionxUserModel = require('../models/actionxuser')
 
 function migrate () {
 
+    console.log(config)
+
     const sequelize = setupDb(config)
     
     const applicationModel = setupApplicationModel(config)
