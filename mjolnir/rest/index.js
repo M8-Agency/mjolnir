@@ -1,4 +1,6 @@
+require('dotenv').config();
 const express = require('express')
+const auth = require('express-jwt')
 const app = express.Router()
 const config = require('../lib/config')
 const responseData = require('./responseData')
@@ -6,7 +8,7 @@ const getmodel = require('./getmodel')
 
 api = () => {    
     
-    app.get('/', function(req, res, next) {
+    app.get('/', auth({secret: process.env.SECRET}), function(req, res, next) {
 
         Model = getmodel(req.baseUrl)
 
@@ -23,7 +25,7 @@ api = () => {
         });        
     })
 
-    app.get('/:id', function(req, res, next) {
+    app.get('/:id', auth({secret: process.env.SECRET}), function(req, res, next) {
         
         Model = getmodel(req.baseUrl)
 
@@ -35,7 +37,7 @@ api = () => {
         
     })    
 
-    app.post('/', function(req, res, next) {
+    app.post('/', auth({secret: process.env.SECRET}), function(req, res, next) {
         
         Model = getmodel(req.baseUrl)
         

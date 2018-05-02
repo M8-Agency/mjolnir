@@ -13,15 +13,15 @@ module.exports = function setupUserModel(config){
         },
         name : {
             type: Sequelize.STRING, 
-            allowNull: true,
+            allowNull: false,
         },
         lastname : {
             type: Sequelize.STRING, 
-            allowNull: true,
+            allowNull: false,
         },
         email : {
             type: Sequelize.STRING, 
-            allowNull: true,
+            allowNull: false,
             validate: {
                 isEmail: true
             }            
