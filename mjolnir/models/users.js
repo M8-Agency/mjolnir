@@ -7,6 +7,10 @@ module.exports = function setupUserModel(config){
     const sequelize = db(config)
 
     return sequelize.define('user', {
+        uid : {
+            type: Sequelize.STRING, 
+            allowNull: false,
+        },
         firstname : {
             type: Sequelize.STRING(64), 
             allowNull: false,
@@ -22,17 +26,21 @@ module.exports = function setupUserModel(config){
                 isEmail: true
             }            
         },
+        username : {
+            type: Sequelize.STRING(64), 
+            allowNull: false,
+        },
+        password : {
+            type: Sequelize.STRING(64), 
+            allowNull: false,
+        },        
         pic : {
             type: Sequelize.STRING, 
             allowNull: true,
             validate: {
                 isUrl: true
             }                         
-        },                
-        username : {
-            type: Sequelize.STRING(64), 
-            allowNull: false,
-        },
+        },                   
         gender : {
             type: Sequelize.STRING(1), 
             allowNull: false,
