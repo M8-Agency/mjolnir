@@ -17,7 +17,7 @@ module.exports = () => {
     app.use('/actionxuser', rest());
     app.use('/userxapplication', rest());
     
-    app.get('/signin', function(req, res, next) {
+    app.post('/signin', function(req, res, next) {
         
         const email = req.body['email']
         const password = req.body['password']
@@ -36,8 +36,6 @@ module.exports = () => {
                 });
             })
         })
-
-        
     })
 
     app.use((err, req, res, next) => {
