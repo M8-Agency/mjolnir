@@ -31,10 +31,16 @@ module.exports = () => {
             }
         }).then((userdata)=>{
             auth.sign(userdata, process.env.SECRET, (err, token)=>{
-                res.status(200).json({
-                    token
-                });
+                if(err){
+                    next(err)
+                }else{
+                    res.status(200).json({
+                        token
+                    });
+                }
             })
+        }).catch((error)=>{
+            next(error)
         })
     })
 
