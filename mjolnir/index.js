@@ -30,6 +30,7 @@ module.exports = () => {
                 password
             }
         }).then((userdata)=>{
+            console.log('process.env.SECRET', process.env.SECRET)
             auth.sign(userdata, process.env.SECRET, (err, token)=>{
                 if(err){
                     next(err)
