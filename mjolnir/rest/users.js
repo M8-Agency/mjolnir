@@ -5,26 +5,20 @@ const app = express.Router()
 const config = require('../lib/config')
 const responseData = require('./responseData')
 const userModel = require('../models/users')
+const md5 = require('md5')
 
 api = () => {    
     
     const User = userModel(config)
 
     app.get('/', auth({secret: process.env.SECRET}), function(req, res, next) {
+        if(!user || !user.id){
+            next(new Error('Not Authorized'))
+        }
 
-        console.log('req.user', req.user)
-
-        const LIMIT = 20
-        const PAGE = (req.query.page) ? parseInt(req.query.page) : 0
-
-        User.findAndCountAll({
-            limit : LIMIT,
-            offset: PAGE * LIMIT
-        }).then(response => {
-            res.status(200).json(responseData('alias', response, PAGE));
-        }).catch( (error) => {
-            next(error)
-        });        
+        User.findById(req.user.id).then((userdata) => {
+            res.status(200).json(userdata);
+        })
     })
 
     app.get('/:id', auth({secret: process.env.SECRET}), function(req, res, next) {
@@ -37,8 +31,11 @@ api = () => {
         
     })    
 
-    app.post('/', auth({secret: process.env.SECRET}), function(req, res, next) {        
-        User.create(req.body).then( (response) => {
+    app.post('/', function(req, res, next) {        
+        const data = req.body
+        data.password = md5(req.body.password)
+        
+        User.create(data).then( (response) => {
             res.status(200).json(response);
         }).catch( (error) => {
             next(error)

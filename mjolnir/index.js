@@ -32,6 +32,7 @@ module.exports = () => {
             }
         }).then((userdata)=>{
             auth.sign({
+                id : userdata.id,
                 uid: userdata.uid,
                 email: userdata.email,
                 username: userdata.username       
