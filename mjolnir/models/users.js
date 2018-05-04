@@ -8,15 +8,15 @@ module.exports = function setupUserModel(config){
 
     return sequelize.define('user', {
         firstname : {
-            type: Sequelize.STRING.STRING(64), 
+            type: Sequelize.STRING(64), 
             allowNull: false,
         },
         lastname : {
-            type: Sequelize.STRING.STRING(64), 
+            type: Sequelize.STRING(64), 
             allowNull: false,
         },
         email : {
-            type: Sequelize.STRING.STRING(64), 
+            type: Sequelize.STRING(64), 
             allowNull: false,
             validate: {
                 isEmail: true
@@ -30,7 +30,7 @@ module.exports = function setupUserModel(config){
             }                         
         },                
         username : {
-            type: Sequelize.STRING.STRING(64), 
+            type: Sequelize.STRING(64), 
             allowNull: false,
         },
         gender : {
@@ -45,15 +45,15 @@ module.exports = function setupUserModel(config){
             allowNull: true,
         },
         zipcode : {
-            type: Sequelize.STRING.STRING(32), 
+            type: Sequelize.STRING(32), 
             allowNull: true,
         },
         city : {
-            type: Sequelize.STRING.STRING(32), 
+            type: Sequelize.STRING(32), 
             allowNull: true,
         },
         country : {
-            type: Sequelize.STRING.STRING(32), 
+            type: Sequelize.STRING(32), 
             allowNull: true,
         },
         birthday : {
