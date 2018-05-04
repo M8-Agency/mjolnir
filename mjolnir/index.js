@@ -3,6 +3,7 @@ const express = require('express')
 const app = express.Router()
 const bodyParser = require('body-parser');
 const rest = require('./rest');
+const usersRouter = require('./rest/users');
 const auth = require('./auth')
 const config = require('./lib/config')
 const userModel = require('./models/users')
@@ -13,7 +14,7 @@ module.exports = () => {
     
     app.use('/actions', rest());
     app.use('/applications', rest());
-    app.use('/users', rest());
+    app.use('/users', usersRouter());
     app.use('/actionxuser', rest());
     app.use('/userxapplication', rest());
     
@@ -30,7 +31,6 @@ module.exports = () => {
                 password
             }
         }).then((userdata)=>{
-            console.log('process.env.SECRET', process.env.SECRET)
             auth.sign({
                 uid: userdata.uid,
                 email: userdata.email,
