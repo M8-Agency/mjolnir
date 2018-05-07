@@ -33,7 +33,12 @@ module.exports = function setupUserModel(config){
         password : {
             type: Sequelize.STRING(64), 
             allowNull: false,
-        },        
+        }, 
+        isAdmin : {
+            type: Sequelize.BOOLEAN, 
+            defaultValue: false,
+            allowNull: true,
+        },                
         pic : {
             type: Sequelize.STRING, 
             allowNull: true,

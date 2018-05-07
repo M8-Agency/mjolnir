@@ -35,6 +35,7 @@
     "sequelize": "4.37.6"
   },
   "devDependencies": {
+    "node-env-run": "^3.0.2",
     "standard": "^11.0.1"
   }
 }

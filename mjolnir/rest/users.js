@@ -15,7 +15,6 @@ api = () => {
         if(!user || !user.id){
             next(new Error('Not Authorized'))
         }
-
         User.findById(req.user.id).then((userdata) => {
             res.status(200).json(userdata);
         })
@@ -23,17 +22,23 @@ api = () => {
 
     app.get('/:id', auth({secret: process.env.SECRET}), function(req, res, next) {
 
-        User.findById(req.params.id).then(response => {
+        if(!user || !user.id){
+            next(new Error('Not Authorized'))
+        }
+        
+        let currentPromise = (user.isAdmin) ? User.findById(req.params.id) : User.findById(user.id);
+
+        currentPromise.then(response => {
             res.status(200).json(response);
         }).catch( (error) => {
             next(error)
-        });        
-        
+        });                    
     })    
 
     app.post('/', function(req, res, next) {        
         const data = req.body
-        data.password = md5(req.body.password)
+        data.uid = md5(Date.now())
+        data.password = (req.body.password) && md5(req.body.password)
         
         User.create(data).then( (response) => {
             res.status(200).json(response);
