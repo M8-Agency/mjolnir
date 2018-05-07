@@ -32,22 +32,26 @@ module.exports = () => {
                 password
             }
         }).then((userdata)=>{
-            console.log('userdata', userdata)
-            auth.sign({
-                id : userdata.id,
-                uid: userdata.uid,
-                email: userdata.email,
-                username: userdata.username,
-                isAdmin: userdata.isAdmin,
-            }, process.env.SECRET, (err, token)=>{
-                if(err){
-                    next(err)
-                }else{
-                    res.status(200).json({
-                        token
-                    });
-                }
-            })
+            if(userdata){
+                auth.sign({
+                    id : userdata.id,
+                    uid: userdata.uid,
+                    email: userdata.email,
+                    username: userdata.username,
+                    isAdmin: userdata.isAdmin,
+                }, process.env.SECRET, (err, token)=>{
+                    if(err){
+                        next(err)
+                    }else{
+                        res.status(200).json({
+                            token
+                        });
+                    }
+                })
+            }else{
+                next(new Error('user not found'))
+            }
+            
         }).catch((error)=>{
             next(error)
         })
