@@ -6,11 +6,9 @@ const config = require('../lib/config')
 const responseData = require('./responseData')
 const userModel = require('../models/users')
 const md5 = require('md5')
+const User = userModel(config)
 
 api = () => {    
-    
-    const User = userModel(config)
-
     app.get('/', auth({secret: process.env.SECRET}), function(req, res, next) {
         if(!user || !user.id){
             next(new Error('Not Authorized'))
