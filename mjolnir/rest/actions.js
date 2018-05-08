@@ -45,6 +45,31 @@ api = () => {
             }
         });        
     })
+
+    app.post('/', function(req, res, next) {
+
+        jwt.verify(req.query.token, process.env.SECRET, function(error, user) {
+            if(error){
+                next(new Error('Not Authorized'))
+            }else{
+                ActionxUser.create({
+                    userId : user.id,
+                    actionId : parseInt(req.body.actionId),
+                    code : req.body.code,
+                    category : req.body.category,
+                    event : req.body.event,
+                    utm : req.body.utm,
+                    url : req.body.url,
+                    image : req.body.image,
+                    points : req.body.points
+                }).then((actionData) => {
+                    res.status(200).json(actionData);
+                }).catch((error) => {
+                    next(error)
+                })
+            }
+        });
+    })    
     
     return app
 }
