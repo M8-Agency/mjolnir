@@ -15,9 +15,21 @@ api = () => {
             }
         }).then((userdata)=>{
             if(userdata){
-                res.status(200).json({
-                    email : userdata.email
-                }); 
+                auth.sign({
+                    id : userdata.id,
+                    uid: userdata.uid,
+                    email: userdata.email,
+                    username: userdata.username,
+                    isAdmin: userdata.isAdmin,
+                }, process.env.SECRET, (err, token)=>{
+                    if(err){
+                        next(err)
+                    }else{
+                        res.status(200).json({
+                            token
+                        });
+                    }
+                })                
             }else{
                 next(new Error('email don\'t exist'))
             }   

@@ -27,6 +27,9 @@ function migrate () {
     userModel.belongsToMany(actionModel, { through: actionxUserModel });
     actionModel.belongsToMany(userModel, { through: actionxUserModel });    
 
+    applicationModel.hasMany( actionModel, { as: 'applicationId' } );
+    //applicationModel.hasOne( actionModel );    
+
     sequelize.sync({ 
         force: true 
     }).then(()=>{

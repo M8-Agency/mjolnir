@@ -11,9 +11,9 @@ module.exports = function setupApplicationModel(config){
             type: Sequelize.STRING, 
             allowNull: false,
         },
-        brandId : {
-            type: Sequelize.INTEGER, 
-            allowNull: false,            
-        }
+        description : {
+            type: Sequelize.STRING, 
+            allowNull: true,
+        }        
     })
 };

@@ -12,15 +12,6 @@ module.exports = function setupActionxUser(config){
             primaryKey: true,
             autoIncrement: true
         },
-        category: {
-            type : Sequelize.STRING
-        },
-        event: {
-            type : Sequelize.STRING
-        },   
-        utm: {
-            type : Sequelize.STRING
-        },
         userId:{
             type: Sequelize.INTEGER, 
             allowNull: false, 
@@ -28,6 +19,41 @@ module.exports = function setupActionxUser(config){
         actionId:{
             type: Sequelize.INTEGER, 
             allowNull: false, 
-        }        
+        },        
+        code: {
+            type : Sequelize.STRING,
+            allowNull: false, 
+        },        
+        category: {
+            type : Sequelize.STRING,
+            allowNull: true 
+        },
+        event: {
+            type : Sequelize.STRING,
+            allowNull: true 
+        },   
+        utm: {
+            type : Sequelize.STRING,
+            allowNull: true 
+        },
+        url: {
+            type : Sequelize.STRING,
+            allowNull: true,
+            validate: {
+                isUrl: true
+            }              
+        },
+        image: {
+            type : Sequelize.STRING,
+            allowNull: true,
+            validate: {
+                isUrl: true
+            }              
+        },
+        points: {
+            type : Sequelize.INTEGER,
+            allowNull: true,
+            defaultValue: 0
+        }              
     });
 };

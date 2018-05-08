@@ -10,6 +10,19 @@ module.exports = function setupActionModel(config){
         name : {
             type: Sequelize.STRING, 
             allowNull: false,
-        }
+        },
+        code : {
+            type: Sequelize.STRING, 
+            allowNull: false,
+        },    
+        description : {
+            type: Sequelize.STRING, 
+            allowNull: true,
+        },
+        points : {
+            type: Sequelize.INTEGER, 
+            defaultValue : 0,
+            allowNull: true,
+        },        
     })
 };
