@@ -54,6 +54,14 @@ module.exports = function setupActionxUser(config){
             type : Sequelize.INTEGER,
             allowNull: true,
             defaultValue: 0
-        }              
+        },
+        primaryJson : {
+            type : Sequelize.JSON,
+            allowNull: true
+        },
+        secondaryJson : {
+            type : Sequelize.JSON,
+            allowNull: true
+        }        
     });
 };

@@ -2,7 +2,7 @@ const express = require('express')
 const app = express.Router()
 const userModel = require('../models/users')
 const config = require('../lib/config')
-const auth = require('../auth')
+const jwt = require('jsonwebtoken')
 const md5 = require('md5')
 const User = userModel(config)
 
@@ -15,7 +15,7 @@ api = () => {
             }
         }).then((userdata)=>{
             if(userdata){
-                auth.sign({
+                jwt.sign({
                     id : userdata.id,
                     uid: userdata.uid,
                     email: userdata.email,
@@ -26,6 +26,7 @@ api = () => {
                         next(err)
                     }else{
                         res.status(200).json({
+                            user : userdata,
                             token
                         });
                     }
