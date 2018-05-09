@@ -61,9 +61,11 @@ api = () => {
                         ['createdAt', 'DESC']
                     ],
                 }).then((actionData) => {
-                    var start = moment(actionData.rows[0].createdAt,'HH:mm:ss');
-                    var hoursPassed = moment().diff(start, 'hours');
-
+                    var hoursPassed = 0
+                    if(actionData.rows.length > 0){
+                        var start = moment(actionData.rows[0].createdAt,'HH:mm:ss');
+                        hoursPassed = moment().diff(start, 'hours');
+                    }
                     res.status(200).json({
                         count : actionData.count,
                         last : actionData.rows[0],

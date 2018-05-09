@@ -23,6 +23,13 @@ module.exports = function setupActionModel(config){
             type: Sequelize.INTEGER, 
             defaultValue : 0,
             allowNull: true,
-        },        
+        },
+        limit : {
+            type: Sequelize.STRING(12), 
+            allowNull: false,
+            validate: {
+                isIn: [['unique', 'day','week','month']],
+            }
+        },      
     })
 };
