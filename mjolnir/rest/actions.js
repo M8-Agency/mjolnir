@@ -8,6 +8,9 @@ const actionxuserModel = require('../models/actionxuser')
 const jwt = require('jsonwebtoken')
 const moment = require('moment')
 
+const db = require('../lib/db');
+const sequelize = db(config)
+
 const Action = actionModel(config)
 const ActionxUser = actionxuserModel(config)
 
@@ -47,6 +50,23 @@ api = () => {
         });        
     })
 
+    app.get('/:applicationId/points', function(req, res, next) {
+        jwt.verify(req.query.token, process.env.SECRET, function(error, user) {
+            if(error){
+                next(new Error('Not Authorized'))
+            }else{
+                sequelize.query(`
+                    select  actions."applicationId", actionxusers."userId",  sum(actionxusers."points") from actionxusers
+                    JOIN actions on actions."id" = actionxusers."actionId"
+                    where actions."applicationId" = ${req.params.applicationId} and actionxusers."userId" = ${user.id}
+                    GROUP BY actionxusers."userId", actions."applicationId"                                
+                `, { type: sequelize.QueryTypes.SELECT}).then((actionData, rows) => {
+                    res.status(200).json(actionData[0]);
+                })
+            }
+        });        
+    })    
+
     app.get('/:actionId/detail', function(req, res, next) {
         jwt.verify(req.query.token, process.env.SECRET, function(error, user) {
             if(error){
@@ -61,15 +81,15 @@ api = () => {
                         ['createdAt', 'DESC']
                     ],
                 }).then((actionData) => {
-                    var hoursPassed = 0
+                    var minutesPassed = 0
                     if(actionData.rows.length > 0){
                         var start = moment(actionData.rows[0].createdAt,'HH:mm:ss');
-                        hoursPassed = moment().diff(start, 'hours');
+                        minutesPassed = moment().diff(start, 'minutes');
                     }
                     res.status(200).json({
                         count : actionData.count,
                         last : actionData.rows[0],
-                        elapsedTime : hoursPassed
+                        elapsedTime : (minutesPassed > 0) ? minutesPassed : -1
                     });
                 })
             }
