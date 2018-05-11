@@ -21,11 +21,20 @@ function migrate () {
     const userxApplicationModel = setupUserxApplicationModel(config)
     const actionxUserModel = setupActionxUserModel(config)
 
+    //Usuarios por aplicacion
     userModel.belongsToMany(applicationModel, { through: userxApplicationModel });
     applicationModel.belongsToMany(userModel, { through: userxApplicationModel });
+    
+    //Acciones por usuario
+    /*
+    userModel.hasMany(actionModel, { through: actionxUserModel, unique: false });
+    actionModel.hasMany(userModel, { through: actionxUserModel, unique: false });    
+    */
+    userModel.hasMany( actionxUserModel, { as: 'userId' } );
+    actionModel.hasMany( actionxUserModel, { as: 'actionId' } );
 
-    userModel.belongsToMany(actionModel, { through: actionxUserModel });
-    actionModel.belongsToMany(userModel, { through: actionxUserModel });    
+    applicationModel.hasMany( actionModel, { as: 'applicationId' } );
+    //applicationModel.hasOne( actionModel );    
 
     sequelize.sync({ 
         force: true 

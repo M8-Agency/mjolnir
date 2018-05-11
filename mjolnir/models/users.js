@@ -79,6 +79,15 @@ module.exports = function setupUserModel(config){
         phone : {
             type: Sequelize.STRING(64), 
             allowNull: true,
-        }        
+        },
+        refererId : {
+            type : Sequelize.INTEGER,
+            defaultValue : 0,
+            allowNull: true
+        },
+        utm : {
+            type: Sequelize.STRING, 
+            allowNull: true,
+        },        
     })
 };
