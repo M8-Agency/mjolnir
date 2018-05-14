@@ -20,9 +20,9 @@ api = () => {
                 next(new Error('Not Authorized'))
             }else{
                 sequelize.query(`
-                    select  actions."applicationId", actionxusers."userId",  sum(actionxusers."points") as points from actionxusers
+                    select  actions."applicationId", actionxusers."userId", sum(actionxusers."points") as points from actionxusers
                     JOIN actions on actions."id" = actionxusers."actionId"
-                    where actions."applicationId" = ${req.params.applicationId} and actionxusers."userId" = ${user.id}
+                    where actions."applicationId" = ${req.params.applicationId} and actionxusers."userId" = ${user.id} and actionxusers.valid = 't'
                     GROUP BY actionxusers."userId", actions."applicationId"                                
                 `, { type: sequelize.QueryTypes.SELECT}).then((actionData, rows) => {
                     res.status(200).json(actionData[0]);
