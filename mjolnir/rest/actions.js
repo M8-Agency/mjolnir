@@ -135,7 +135,7 @@ api = () => {
                     //Busco detalles de la ultima accion del usuario
                     ActionxUser.findAndCountAll({
                         where: {
-                            userId: user.id,
+                            userId: (req.body.userId) ? req.body.userId : user.id,
                             actionId: req.body.actionId,
                             valid : true
                         },
@@ -146,7 +146,7 @@ api = () => {
                         const actionDetail = responseDetail(actionData)
                         //Guardo la accion
                         ActionxUser.create({
-                            userId : user.id,
+                            userId : (req.body.userId) ? req.body.userId : user.id,
                             actionId : parseInt(req.body.actionId),
                             code : req.body.code,
                             category : req.body.category,
