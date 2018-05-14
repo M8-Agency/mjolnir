@@ -55,6 +55,11 @@ module.exports = function setupActionxUser(config){
             allowNull: true,
             defaultValue: 0
         },
+        valid: {
+            type: Sequelize.BOOLEAN, 
+            defaultValue: false,
+            allowNull: true,
+        },        
         primaryJson : {
             type : Sequelize.JSON,
             allowNull: true
