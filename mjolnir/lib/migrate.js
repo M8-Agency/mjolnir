@@ -6,16 +6,15 @@ const setupDb = require('./db')
 const setupUserModel = require('../models/users')
 const setupActionModel = require('../models/actions')
 const setupApplicationModel = require('../models/applications')
+const setupEmailModel = require('../models/email')
 const setupUserxApplicationModel = require('../models/userxapplication')
 const setupActionxUserModel = require('../models/actionxuser')
 
 function migrate () {
-
-    console.log(config)
-
     const sequelize = setupDb(config)
-    
+
     const applicationModel = setupApplicationModel(config)
+    const emailModel = setupEmailModel(config)    
     const userModel = setupUserModel(config)
     const actionModel = setupActionModel(config)
     const userxApplicationModel = setupUserxApplicationModel(config)
@@ -24,17 +23,12 @@ function migrate () {
     //Usuarios por aplicacion
     userModel.belongsToMany(applicationModel, { through: userxApplicationModel });
     applicationModel.belongsToMany(userModel, { through: userxApplicationModel });
-    
-    //Acciones por usuario
-    /*
-    userModel.hasMany(actionModel, { through: actionxUserModel, unique: false });
-    actionModel.hasMany(userModel, { through: actionxUserModel, unique: false });    
-    */
+
     userModel.hasMany( actionxUserModel, { as: 'userId' } );
     actionModel.hasMany( actionxUserModel, { as: 'actionId' } );
 
     applicationModel.hasMany( actionModel, { as: 'applicationId' } );
-    //applicationModel.hasOne( actionModel );    
+    applicationModel.hasMany( emailModel, { as: 'applicationId2' } );    
 
     sequelize.sync({ 
         force: true 
