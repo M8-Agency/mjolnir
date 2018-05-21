@@ -16,8 +16,8 @@ const Email = emailModel(config)
 
 //Email config
 const mailgun = new Mailgun({
-    apiKey: '', 
-    domain: ''
+    apiKey: process.env.MAILER_KEY, 
+    domain: process.env.MAILER_DOMAIN
 });
 
 api = () => {    
