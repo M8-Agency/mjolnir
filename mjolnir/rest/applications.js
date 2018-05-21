@@ -56,7 +56,7 @@ api = () => {
                 Email.findById(req.params.emailId).then((response)=>{
                     
                     const emailData = {
-                        from: '',
+                        from: process.env.MAILER_FROM,
                         to: req.body.email,
                         subject: parseContent(response.subject, req.body.data),
                         html: parseContent(response.htmlBody)
