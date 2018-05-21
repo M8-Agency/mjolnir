@@ -20,6 +20,13 @@ const mailgun = new Mailgun({
     domain: process.env.MAILER_DOMAIN
 });
 
+const parseContent = function(str, data){
+    for(index in data){
+        str = str.replace(new RegExp(`{{${index}}}`, 'g'), data[index]);
+    }
+    return str
+}
+
 api = () => {    
     
     app.get('/:applicationId/points', function(req, res, next) {
@@ -39,14 +46,6 @@ api = () => {
         });        
     })    
 
-    const parseContent = function(str, data){
-        data = JSON.parse(data || '{}')
-        for(index in data){
-            str = str.replace(new RegExp(`{{${index}}}`, 'g'), data[index]);
-        }
-        return str
-    }
-
     app.post('/:applicationId/sendemail/:emailId', function(req, res, next) {
         jwt.verify(req.query.token, process.env.SECRET, function(error, user) {
             if(error){
@@ -58,8 +57,8 @@ api = () => {
                     const emailData = {
                         from: process.env.MAILER_FROM,
                         to: req.body.email,
-                        subject: parseContent(response.subject, req.body.data),
-                        html: parseContent(response.htmlBody, req.body.data)
+                        subject: parseContent(response.subject, req.body),
+                        html: parseContent(response.htmlBody, req.body)
                     }
 
                     mailgun.messages().send(emailData, (error, body) => {
