@@ -1,4 +1,5 @@
 sql/
+assets/
 node_modules/
 api/lib/config.js
 .env
