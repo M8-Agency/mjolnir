@@ -40,7 +40,7 @@ api = () => {
     })    
 
     const parseContent = function(str, data){
-        data = JSON.parse(data)
+        data = JSON.parse(data || '{}')
         for(index in data){
             str = str.replace(new RegExp(`{{${index}}}`, 'g'), data[index]);
         }
@@ -59,7 +59,7 @@ api = () => {
                         from: process.env.MAILER_FROM,
                         to: req.body.email,
                         subject: parseContent(response.subject, req.body.data),
-                        html: parseContent(response.htmlBody)
+                        html: parseContent(response.htmlBody, req.body.data)
                     }
 
                     mailgun.messages().send(emailData, (error, body) => {
