@@ -16,8 +16,8 @@ const Email = emailModel(config)
 
 //Email config
 const mailgun = new Mailgun({
-    apiKey: 'key-cd5ff1ffbd8a5d46f652e41736cb72d7', 
-    domain: 'copaairlines.m8agency.com'
+    apiKey: '', 
+    domain: ''
 });
 
 api = () => {    
@@ -56,7 +56,7 @@ api = () => {
                 Email.findById(req.params.emailId).then((response)=>{
                     
                     const emailData = {
-                        from: 'postmaster@copaairlines.m8agency.com',
+                        from: '',
                         to: req.body.email,
                         subject: parseContent(response.subject, req.body.data),
                         html: parseContent(response.htmlBody)
