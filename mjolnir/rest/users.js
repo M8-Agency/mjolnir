@@ -3,10 +3,10 @@ const express = require('express')
 const jwt = require('jsonwebtoken')
 const app = express.Router()
 const config = require('../lib/config')
-const responseData = require('./responseData')
 const userModel = require('../models/users')
 const md5 = require('md5')
 const User = userModel(config)
+const tools = require('./tools')
 
 api = () => {    
     app.get('/', function(req, res, next) {
@@ -29,9 +29,10 @@ api = () => {
             if(error){
                 next(new Error('Not Authorized'))
             }else{
-                let currentPromise = (user.isAdmin) ? User.findById(req.params.id) : User.findById(user.id);
+                
+                const currentUserId = (user.isAdmin) ? req.params.id : user.id;
 
-                currentPromise.then(response => {
+                User.findById(currentUserId).then(response => {
                     res.status(200).json(response);
                 }).catch( (error) => {
                     next(error)
@@ -42,12 +43,12 @@ api = () => {
     })    
 
     app.post('/', function(req, res, next) {        
-        const data = req.body
-        data.uid = md5(Date.now())
-        data.password = (req.body.password) && md5(req.body.password)
         
-        User.create(data).then( (response) => {
-
+        req.body.uid = md5(Date.now())
+        req.body.password = (req.body.password) && md5(req.body.password)
+        
+        User.create(req.body).then( (response) => {
+            
             jwt.sign({
                 id : response.id,
                 uid: response.uid,

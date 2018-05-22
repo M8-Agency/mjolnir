@@ -11,7 +11,7 @@ api = () => {
     app.post('/verify', function(req, res, next) {
         User.findOne({
             where : {
-                email : req.body['email']
+                email : req.body.email
             }
         }).then((userdata)=>{
             if(userdata){
@@ -41,8 +41,8 @@ api = () => {
     })
 
     app.post('/signin', function(req, res, next) {
-        const email = req.body['email']
-        const password = md5(req.body['password'])
+        const email = req.body.email
+        const password = md5(req.body.password)
 
         User.findOne({
             where : {
@@ -51,7 +51,7 @@ api = () => {
             }
         }).then((userdata)=>{
             if(userdata){
-                auth.sign({
+                jwt.sign({
                     id : userdata.id,
                     uid: userdata.uid,
                     email: userdata.email,

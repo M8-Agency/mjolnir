@@ -1,7 +1,6 @@
 const express = require('express')
 const app = express.Router()
 const bodyParser = require('body-parser');
-const rest = require('./rest');
 const usersRouter = require('./rest/users');
 const applicationsRouter = require('./rest/applications');
 const actionsRouter = require('./rest/actions');
@@ -11,12 +10,11 @@ const authRouter = require('./rest/auth');
 module.exports = () => {
     app.use(bodyParser.json())
     app.use(bodyParser.urlencoded({ extended: true }))
+    //ROUTES
     app.use('/actions', actionsRouter());
-    app.use('/actionxuser', rest());
     app.use('/applications', applicationsRouter());
     app.use('/auth', authRouter());
     app.use('/users', usersRouter());
-    app.use('/userxapplication', rest());
 
     app.use((err, req, res, next) => {
         res.status(500).send({ 
