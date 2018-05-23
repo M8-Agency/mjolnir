@@ -48,7 +48,7 @@ api = () => {
         req.body.password = (req.body.password) && md5(req.body.password)
         
         User.create(req.body).then( (response) => {
-            
+            //Creo el token
             jwt.sign({
                 id : response.id,
                 uid: response.uid,

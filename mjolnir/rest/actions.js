@@ -13,6 +13,8 @@ const Action = actionModel(config)
 const ActionxUser = actionxuserModel(config)
 
 const tools = require('./tools')
+//Emails
+const Mailer = require('../mailer')
 
 api = () => {    
     
@@ -104,6 +106,9 @@ api = () => {
                                 ['createdAt', 'DESC']
                             ],
                         }).then((actionData) => {
+
+                            
+
                             const actionDetail = tools.responseDetail(actionData)
                             const dataToSave = {
                                 userId : (req.body.userId) ? req.body.userId : user.id,
@@ -121,7 +126,13 @@ api = () => {
                             }
                             //Guardo la accion
                             ActionxUser.create(dataToSave).then((actionSaved) => {
-                                res.status(200).json(actionSaved);3
+                                
+                                if(req.body.emailConfig){
+                                    Mailer.send(res, next, req.body.emailConfig.emailId, req.body.emailConfig, actionSaved)
+                                }else{
+                                    res.status(200).json(actionSaved);
+                                }
+
                             }).catch((error) => {
                                 next(error)
                             })                        

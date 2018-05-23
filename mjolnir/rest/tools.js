@@ -39,15 +39,21 @@ const validateAction = (action, actionDetail) => {
     if(action.limit === 'unique' && actionDetail.count === 0){
         valid = true
     }else if(action.limit === 'daily'){
-        if(moment(actionDetail.last.createdAt, 'DD/MM/YYYY') === moment(Date.now(), 'DD/MM/YYYY')){
-            valid = false
-        }else{
-            if(actionDetail.count <= action.top){
-                valid = true
-            }else{
+        
+        if(actionDetail.count > 0){
+            if(moment(actionDetail.last.createdAt, 'DD/MM/YYYY') === moment(Date.now(), 'DD/MM/YYYY')){
                 valid = false
+            }else{
+                if(actionDetail.count <= action.top){
+                    valid = true
+                }else{
+                    valid = false
+                }
             }
+        }else{
+            valid = true
         }
+        
     }else if(action.limit === 'top' && actionDetail.count <= action.top){
         valid = true
     }

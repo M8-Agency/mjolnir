@@ -3,7 +3,6 @@ const express = require('express')
 const app = express.Router()
 const jwt = require('jsonwebtoken')
 const moment = require('moment')
-const Mailgun = require('mailgun-js');
 const tools = require('./tools')
 //DB
 const config = require('../lib/config')
@@ -12,16 +11,10 @@ const sequelize = db(config)
 //Models
 const applicationModel = require('../models/applications')
 const Applications = applicationModel(config)
-const emailModel = require('../models/email')
-const Email = emailModel(config)
 const UserApplicationsModel = require('../models/userxapplication')
 const UserApplications = UserApplicationsModel(config)
-
-//Email config
-const mailgun = new Mailgun({
-    apiKey: process.env.MAILER_KEY, 
-    domain: process.env.MAILER_DOMAIN
-});
+//Emails
+const Mailer = require('../mailer')
 
 api = () => {
     
@@ -102,27 +95,7 @@ api = () => {
             if(error){
                 next(new Error('Not Authorized'))
             }else{
-                Email.findById(req.params.emailId).then((response)=>{
-                    const emailData = {
-                        from: process.env.MAILER_FROM,
-                        to: req.body.email,
-                        subject: tools.parseContent(response.subject, req.body),
-                        html: tools.parseContent(response.htmlBody, req.body)
-                    }
-
-                    mailgun.messages().send(emailData, (error, body) => {
-                        if (error) {
-                            next(error)
-                        }else {
-                            res.status(200).json({
-                                submit : true
-                            });
-                        }
-                    });
-        
-                }).catch((error)=>{
-                    next(error)
-                })
+                Mailer.send(res, next, req.params.emailId, req.body, { submit : true})
             }
             
         });        
