@@ -22,6 +22,7 @@ module.exports = function setupUserModel(config){
         email : {
             type: Sequelize.STRING(64), 
             allowNull: false,
+            unique : true,
             validate: {
                 isEmail: true
             }            

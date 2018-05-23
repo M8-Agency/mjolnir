@@ -6,49 +6,15 @@ const config = require('../lib/config')
 const actionModel = require('../models/actions')
 const actionxuserModel = require('../models/actionxuser')
 const jwt = require('jsonwebtoken')
-const moment = require('moment')
 
 const db = require('../lib/db');
 const sequelize = db(config)
-
 const Action = actionModel(config)
 const ActionxUser = actionxuserModel(config)
 
-responseDetail = (actionData) => {
-    var secondsPassed = 0
-    if(actionData.rows.length > 0){
-        var start = moment(actionData.rows[0].createdAt,'HH:mm:ss');
-        secondsPassed = moment().diff(start, 'seconds');
-    }
-
-    return {
-        count : actionData.count,
-        last : actionData.rows[0],
-        elapsedTime : (secondsPassed > 0) ? secondsPassed : -1
-    }
-}
-
-validateAction = (action, actionDetail) => {
-    let valid = false
-    if(action.limit === 'unique' && actionDetail.count === 0){
-        valid = true
-    }else if(action.limit === 'daily'){
-        //Cambiar para validar por dia no por tiempo        
-        if(actionDetail.elapsedTime > 0 && actionDetail.elapsedTime < 86400){
-            valid = false
-        }else{
-            if(actionDetail.count <= action.top){
-                valid = true
-            }else{
-                valid = false
-            }
-            
-        }
-    }else if(action.limit === 'top' && actionDetail.count <= action.top){
-        valid = true
-    }
-    return valid
-}
+const tools = require('./tools')
+//Emails
+const Mailer = require('../mailer')
 
 api = () => {    
     
@@ -111,7 +77,7 @@ api = () => {
                         ['createdAt', 'DESC']
                     ],
                 }).then((actionData) => {
-                    res.status(200).json(responseDetail(actionData));
+                    res.status(200).json(tools.responseDetail(actionData));
                 })
             }
         });        
@@ -140,7 +106,10 @@ api = () => {
                                 ['createdAt', 'DESC']
                             ],
                         }).then((actionData) => {
-                            const actionDetail = responseDetail(actionData)
+
+                            
+
+                            const actionDetail = tools.responseDetail(actionData)
                             const dataToSave = {
                                 userId : (req.body.userId) ? req.body.userId : user.id,
                                 actionId : parseInt(req.body.actionId),
@@ -151,13 +120,19 @@ api = () => {
                                 url : req.body.url,
                                 image : req.body.image,
                                 points : (req.body.points) ? req.body.points : action.points, //Si los puntos no vienen en el post guarda los de action asociada
-                                valid : validateAction(action, actionDetail),
+                                valid : tools.validateAction(action, actionDetail),
                                 primaryJson : req.body.primaryJson,
                                 secondayJson : req.body.secondayJson
                             }
                             //Guardo la accion
                             ActionxUser.create(dataToSave).then((actionSaved) => {
-                                res.status(200).json(actionSaved);3
+                                
+                                if(req.body.emailConfig){
+                                    Mailer.send(res, next, req.body.emailConfig.emailId, req.body.emailConfig, actionSaved)
+                                }else{
+                                    res.status(200).json(actionSaved);
+                                }
+
                             }).catch((error) => {
                                 next(error)
                             })                        

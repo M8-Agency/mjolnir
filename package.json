@@ -4,7 +4,8 @@
   "description": "M8 api",
   "main": "server.js",
   "scripts": {
-    "test": "standard && node server.js",
+    "test": "mocha",
+    "debug": "standard && node server.js",
     "start": "node server.js"
   },
   "repository": {
@@ -37,7 +38,10 @@
     "sequelize": "4.37.6"
   },
   "devDependencies": {
+    "assert": "^1.4.1",
+    "mocha": "^5.2.0",
     "node-env-run": "^3.0.2",
-    "standard": "^11.0.1"
+    "standard": "^11.0.1",
+    "supertest": "^3.1.0"
   }
 }

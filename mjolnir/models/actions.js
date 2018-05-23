@@ -15,6 +15,10 @@ module.exports = function setupActionModel(config){
             type: Sequelize.STRING, 
             allowNull: false,
         },    
+        /**
+         * sendEmail boolean
+         * emailCode string
+         */
         description : {
             type: Sequelize.STRING, 
             allowNull: true,
