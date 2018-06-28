@@ -26,34 +26,34 @@ const responseDetail = (actionData) => {
         var start = moment(actionData.rows[0].createdAt,'HH:mm:ss');
         secondsPassed = moment().diff(start, 'seconds');
     }
-
     return {
         count : actionData.count,
+        actions : actionData.rows,
         last : actionData.rows[0],
         elapsedTime : (secondsPassed > 0) ? secondsPassed : -1
     }
 }
 
+/**
+ * 
+ * @param {*} action 
+ * @param {*} actionDetail 
+ */
 const validateAction = (action, actionDetail) => {
     let valid = false
     if(action.limit === 'unique' && actionDetail.count === 0){
         valid = true
     }else if(action.limit === 'daily'){
         
-        if(actionDetail.count > 0){
-            if(moment(actionDetail.last.createdAt, 'DD/MM/YYYY') === moment(Date.now(), 'DD/MM/YYYY')){
-                valid = false
-            }else{
-                if(actionDetail.count < action.top){
-                    valid = true
-                }else{
-                    valid = false
-                }
+        let sameDay = 0;
+        actionDetail.actions.map((item, index)=>{
+            isSameDay = moment(item.createdAt).isSame(moment(), 'day')
+            if(isSameDay){
+                sameDay++
             }
-        }else{
-            valid = true
-        }
-        
+        })
+        valid = (sameDay < action.top)
+
     }else if(action.limit === 'top' && actionDetail.count < action.top){
         valid = true
     }

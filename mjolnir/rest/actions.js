@@ -27,7 +27,10 @@ api = () => {
                 ActionxUser.findAll({
                     where: {
                         userId: user.id
-                    }
+                    },
+                    order : [
+                        ['createdAt', 'DESC']
+                    ],                    
                 }).then((actionData) => {
                     res.status(200).json(actionData);
                 })
@@ -44,7 +47,10 @@ api = () => {
                     where: {
                         userId: user.id,
                         actionId: req.params.actionId,
-                    }
+                    },
+                    order : [
+                        ['createdAt', 'DESC']
+                    ]
                 }).then((actionData) => {
                     res.status(200).json(actionData);
                 })

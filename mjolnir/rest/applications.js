@@ -61,7 +61,15 @@ api = () => {
                     where actions."applicationId" = ${req.params.applicationId} and actionxusers."userId" = ${user.id} and actionxusers.valid = 't'
                     GROUP BY actionxusers."userId", actions."applicationId"                                
                 `, { type: sequelize.QueryTypes.SELECT}).then((actionData, rows) => {
-                    res.status(200).json(actionData[0]);
+                    if(actionData.length > 0){
+                        res.status(200).json(actionData[0]);    
+                    }else{
+                        res.status(200).json({ 
+                            applicationId: 1, 
+                            userId: user.id, 
+                            points: '0',
+                        });
+                    }
                 })
             }
         });        
