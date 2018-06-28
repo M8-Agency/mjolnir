@@ -34,6 +34,11 @@ const responseDetail = (actionData) => {
     }
 }
 
+/**
+ * 
+ * @param {*} action 
+ * @param {*} actionDetail 
+ */
 const validateAction = (action, actionDetail) => {
     let valid = false
     if(action.limit === 'unique' && actionDetail.count === 0){
