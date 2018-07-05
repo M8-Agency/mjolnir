@@ -15,9 +15,16 @@ api = () => {
             if(error){
                 next(new Error('Not Authorized'))
             }else{
-                User.findById(user.id).then((userdata) => {
-                    res.status(200).json(userdata);
-                })
+                if(user.isAdmin){
+                    User.findAndCountAll().then((userdata) => {
+                        res.status(200).json(userdata);
+                    })
+                }else{
+                    User.findById(user.id).then((userdata) => {
+                        res.status(200).json(userdata);
+                    })
+                }
+
             }
         })
 

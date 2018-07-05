@@ -41,6 +41,7 @@ api = () => {
     })
 
     app.post('/signin', function(req, res, next) {
+        console.log('req.body', req.body)
         const email = req.body.email
         const password = md5(req.body.password)
 
