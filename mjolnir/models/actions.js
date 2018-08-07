@@ -36,7 +36,7 @@ module.exports = function setupActionModel(config){
             }
         },     
         top: {
-            type : Sequelize.INTEGER(3),
+            type : Sequelize.INTEGER,
             allowNull: true,
             defaultValue: 0
         },         

@@ -128,7 +128,7 @@ api = () => {
                                 points : (req.body.points) ? req.body.points : action.points, //Si los puntos no vienen en el post guarda los de action asociada
                                 valid : tools.validateAction(action, actionDetail),
                                 primaryJson : req.body.primaryJson,
-                                secondayJson : req.body.secondayJson
+                                secondaryJson : req.body.secondaryJson
                             }
                             //Guardo la accion
                             ActionxUser.create(dataToSave).then((actionSaved) => {
