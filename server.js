@@ -1,21 +1,58 @@
-const express = require('express');
-const app = express();
+const hapi = require('hapi');
+const Sequelize = require('sequelize')
+const dbConfig = require('./db/config')
+db = new Sequelize(dbConfig)
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
+const server = new hapi.Server({
+    host: '0.0.0.0',
+    port: process.env.PORT || 3000,
+    routes: {
+        cors: {
+            origin: ['*'],
+        }
+    }
 });
 
-const mjolnir = require('./mjolnir');
-app.use('/api', mjolnir());
+const init = async () => {
+    await server.register([
+        {
+            plugin: require('./modules/auth/auth.module'),
+            options: {
+                db
+            }
+        },
+        {
+            plugin: require('./modules/actions/actions.module'),
+            options: {
+                db
+            }
+        },
+        {
+            plugin: require('./modules/applications/applications.module'),
+            options: {
+                db
+            }
+        },
+        {
+            plugin: require('./modules/users/users.module'),
+            options: {
+                db
+            }
+        },
+        {
+            plugin: require('./modules/events/events.module'),
+            options: {
+                db
+            }
+        },
+        {
+            plugin: require('./modules/trivias/trivias.module'),
+            options: {
+                db
+            }
+        }    ])
+    await server.start()
+    console.log(`Server runnig at ${server.info.port}`)
+}
 
-app.get('/', function(req, res){
-  res.send('hello world');
-});
-
-var port = process.env.PORT || 3001;
-app.listen(port, function(){
-    console.log('running server '+port)
-});
+init();

@@ -1,5 +1,5 @@
-sql/
-assets/
-node_modules/
-api/lib/config.js
+/node_modules
+/sender/data
 .env
+
+*.sql

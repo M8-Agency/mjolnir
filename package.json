@@ -1,48 +1,32 @@
 {
-  "name": "mjolnir",
+  "name": "hapijs",
   "version": "1.0.0",
-  "description": "M8 api",
+  "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "mocha",
-    "debug": "standard && node server.js",
-    "start": "node server.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/M8-Agency/mjolnir.git"
+    "url": "git+https://github.com/carloscba/hapijs.git"
   },
-  "keywords": [
-    "node",
-    "api",
-    "sequelize",
-    "expressjs"
-  ],
-  "author": "M8 Agency",
-  "license": "MIT",
+  "author": "carloscba",
+  "license": "ISC",
   "bugs": {
-    "url": "https://github.com/M8-Agency/mjolnir/issues"
+    "url": "https://github.com/carloscba/hapijs/issues"
   },
-  "homepage": "https://github.com/M8-Agency/mjolnir#readme",
+  "homepage": "https://github.com/carloscba/hapijs#readme",
   "dependencies": {
-    "axios": "^0.18.0",
-    "body-parser": "^1.18.2",
-    "dotenv": "^5.0.1",
-    "express": "4.16.3",
-    "express-jwt": "^5.3.1",
-    "jsonwebtoken": "^8.2.1",
-    "mailgun-js": "^0.18.0",
-    "md5": "^2.2.1",
-    "moment": "^2.22.1",
-    "pg": "^7.4.1",
-    "pg-hstore": "^2.3.2",
-    "sequelize": "4.37.6"
-  },
-  "devDependencies": {
-    "assert": "^1.4.1",
-    "mocha": "^5.2.0",
-    "node-env-run": "^3.0.2",
-    "standard": "^11.0.1",
-    "supertest": "^3.1.0"
+    "bcrypt": "^3.0.0",
+    "dotenv": "^6.0.0",
+    "hapi": "^17.5.3",
+    "html-entities": "^1.2.1",
+    "joi": "^13.5.2",
+    "jsonwebtoken": "^8.3.0",
+    "mailgun-js": "^0.20.0",
+    "moment": "^2.22.2",
+    "pg": "^7.4.3",
+    "prompt-confirm": "^2.0.4",
+    "sequelize": "^4.38.0"
   }
 }
