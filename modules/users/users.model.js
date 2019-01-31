@@ -55,6 +55,10 @@ module.exports = db => {
       defaultValue: 0,
       allowNull: false
     },
+    referalCode: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
     utm: {
       type: Sequelize.STRING,
       allowNull: true
@@ -63,6 +67,11 @@ module.exports = db => {
       type: Sequelize.BOOLEAN,
       defaultValue: false,
       allowNull: true
+    },
+    idAdmin: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false,
+      allowNull: false
     }
   });
 };
