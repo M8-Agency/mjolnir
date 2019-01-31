@@ -5,12 +5,19 @@ const Confirm = require("prompt-confirm");
 
 db = new Sequelize(dbConfig);
 
-UserAction = db.define("user_action", {
+const eventsModel = db.define("user_action", {
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    unique: true
+  },
   picture: Sequelize.STRING,
   valid_score: Sequelize.BOOLEAN
 });
 
 // const applicationsModel = require('../modules/applications/applications.model')(db);
+// const eventsModel = require("../modules/events/events.model")(db);
 const usersModel = require("../modules/users/users.model")(db);
 // const eventsModel = require('../modules/events/events.model')(db);
 const actionsModel = require("../modules/actions/actions.model")(db);
@@ -22,8 +29,14 @@ const actionsModel = require("../modules/actions/actions.model")(db);
 // applicationsModel.hasMany(eventsModel, { as: 'applicationId' });
 // applicationsModel.hasMany(emailsModel, { as: 'applicationId2' });
 
-usersModel.belongsToMany(actionsModel, { through: UserAction });
-actionsModel.belongsToMany(usersModel, { through: UserAction });
+usersModel.belongsToMany(actionsModel, {
+  through: { model: eventsModel, unique: false },
+  foreignKey: "userId"
+});
+actionsModel.belongsToMany(usersModel, {
+  through: { model: eventsModel, unique: false },
+  foreignKey: "actionId"
+});
 
 console.log(dbConfig);
 
