@@ -40,16 +40,22 @@ actionsModel.belongsToMany(usersModel, {
 
 console.log(dbConfig);
 
-const confirm = new Confirm(
-  `Migrate ${process.env.DB_DATABASE} on ${process.env.DB_HOST}`
-).ask(answer => {
+const confirm = new Confirm(`Migrate ${process.env.DB_DATABASE} on ${process.env.DB_HOST}`).ask(answer => {
   if (answer) {
     db.sync({
       force: true
     })
       .then(() => {
         console.log("suceess");
-        process.exit(0);
+        actionsModel
+          .bulkCreate([
+            { name: "Register", code: "REGISTER", description: "Register a user", points: 15, frequency: "unique", frequency_limit: 1, max_actions: 1, can_pass_limit: false },
+            { name: "Upload", code: "UPLOAD", description: "Upload an image", points: 1, frequency: "daily", frequency_limit: 1, max_actions: 10, can_pass_limit: false },
+            { name: "Share", code: "SHARE", description: "Share a post", points: 5, frequency: "daily", frequency_limit: 3, max_actions: 99999999, can_pass_limit: true }
+          ])
+          .then(() => {
+            process.exit(0);
+          });
       })
       .catch(error => {
         console.log("error", error);
