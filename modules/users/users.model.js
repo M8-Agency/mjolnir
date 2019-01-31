@@ -1,6 +1,12 @@
 const Sequelize = require("sequelize");
 module.exports = db => {
   return db.define("user", {
+    id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      unique: true
+    },
     firstname: {
       type: Sequelize.STRING(64),
       allowNull: false
