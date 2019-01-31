@@ -4,7 +4,8 @@ module.exports = db => {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
+      unique: true
     },
     name: {
       type: Sequelize.STRING,
@@ -12,7 +13,8 @@ module.exports = db => {
     },
     code: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
+      unique: true
     },
     description: {
       type: Sequelize.STRING,
