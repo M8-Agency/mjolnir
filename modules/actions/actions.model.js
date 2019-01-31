@@ -32,15 +32,19 @@ module.exports = db => {
         isIn: [["unique", "daily"]]
       }
     },
-    limit: {
+    frequency_limit: {
       type: Sequelize.INTEGER,
       allowNull: false,
       defaultValue: 0
     },
-    max: {
+    max_actions: {
       type: Sequelize.INTEGER,
       allowNull: false,
       defaultValue: 0
+    },
+    can_pass_limit: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: true
     }
   });
 };

@@ -28,10 +28,9 @@ module.exports = db => {
       handler: actionsControllers.create,
       config: {
         validate: {
-          payload: Joi.object().keys({
-            token: Joi.string().required()
-          })
-
+          // payload: Joi.object().keys({
+          //   token: Joi.string().required()
+          // })
           // query: Joi.object().keys({
           //   token: Joi.string().required()
           // })
