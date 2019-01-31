@@ -1,4 +1,15 @@
 const Sequelize = require("sequelize");
+
+function makeid() {
+  var text = "";
+  var possible =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < 20; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
+}
 module.exports = db => {
   return db.define("user", {
     id: {
@@ -53,10 +64,11 @@ module.exports = db => {
     refererId: {
       type: Sequelize.INTEGER,
       defaultValue: 0,
-      allowNull: false
+      allowNull: true
     },
     referalCode: {
       type: Sequelize.STRING,
+      defaultValue: makeid(),
       allowNull: false
     },
     utm: {
