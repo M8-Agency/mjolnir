@@ -156,6 +156,16 @@ module.exports = db => {
     async create(req, h) {
       try {
         const tokenData = await jwt.verify(req.payload.token, process.env.JWT_KEY);
+        /**PREVENT STICKER ACTIONS TO BE FIRED FROM HERE */
+        const invalidActions = ["PALMERA", "SUN", "AMOR", "DRINK", "BALL", "BUCKET", "CARNAVAL", "FOOD", "DIVE", "BOAT"];
+        if (invalidActions.indexOf(req.payload.code) > -1) {
+          return h
+            .response({
+              errors: "",
+              message: "Action not allowed"
+            })
+            .code(501);
+        }
         const actionData = await Action.findOne({
           where: {
             code: req.payload.code
