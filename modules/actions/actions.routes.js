@@ -18,11 +18,6 @@ module.exports = db => {
       handler: actionsControllers.findCode
     },
     {
-      path: "/api/actions/create-static",
-      method: "POST",
-      handler: actionsControllers.createaction
-    },
-    {
       path: "/api/actions",
       method: "POST",
       handler: actionsControllers.create,
