@@ -18,7 +18,8 @@ module.exports = db => {
       unique: true
     },
     picture: Sequelize.STRING,
-    valid_score: Sequelize.BOOLEAN
+    valid_score: Sequelize.BOOLEAN,
+    share_platform: Sequelize.STRING
   });
 
   User.belongsToMany(Action, {
@@ -183,7 +184,8 @@ module.exports = db => {
           userId: tokenData.id,
           actionId: actionData.id,
           picture: req.payload.picture || null,
-          valid_score: validity.points
+          valid_score: validity.points,
+          share_platform: req.payload.share_platform || null
         });
         // const userAction = await userData.setActions(actionData, {
         //   through: { picture: req.payload.picture || null, valid_score: 1 }
