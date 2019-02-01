@@ -13,6 +13,11 @@ module.exports = db => {
       handler: actionsControllers.points
     },
     {
+      path: "/api/actions/can_upload",
+      method: "GET",
+      handler: actionsControllers.canUpload
+    },
+    {
       path: "/api/actions/{code}",
       method: "GET",
       handler: actionsControllers.findCode

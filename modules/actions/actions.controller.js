@@ -111,6 +111,33 @@ module.exports = db => {
           .code(400);
       }
     },
+    async canUpload(req, h) {
+      try {
+        const tokenData = await jwt.verify(req.query.token, process.env.JWT_KEY);
+        const actionData = await Action.findOne({
+          where: {
+            code: "UPLOAD"
+          }
+        });
+        const actions = await UserAction.count({
+          where: {
+            $and: [{ userId: tokenData.id, actionId: actionData.id }, Sequelize.where(Sequelize.fn("DATE", Sequelize.col("createdAt")), Sequelize.literal("CURRENT_DATE"))]
+          }
+        });
+        const total = await UserAction.count({
+          where: { userId: userId, actionId: actionData.id }
+        });
+        if (!actions && total < 10) return { can_upload: true };
+        return { can_upload: false };
+      } catch (error) {
+        return h
+          .response({
+            errors: error.errors,
+            message: error.message
+          })
+          .code(400);
+      }
+    },
 
     async find(req, h) {
       try {
@@ -156,8 +183,8 @@ module.exports = db => {
     async create(req, h) {
       try {
         const tokenData = await jwt.verify(req.payload.token, process.env.JWT_KEY);
-        /**PREVENT STICKER ACTIONS TO BE FIRED FROM HERE */
-        const invalidActions = ["PALMERA", "SUN", "AMOR", "DRINK", "BALL", "BUCKET", "CARNAVAL", "FOOD", "DIVE", "BOAT"];
+        /**PREVENT STICKER AND TICKET ACTIONS BEING FIRED FROM HERE */
+        const invalidActions = ["PALMERA", "SUN", "AMOR", "DRINK", "BALL", "BUCKET", "CARNAVAL", "FOOD", "DIVE", "BOAT", "BUYONE", "BUYTWO", "BUYTHREE", "BUYFOUR", "BUYMORE"];
         if (invalidActions.indexOf(req.payload.code) > -1) {
           return h
             .response({
