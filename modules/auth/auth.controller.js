@@ -133,8 +133,8 @@ module.exports = db => {
         } else {
           return h
             .response({
-              errors: ["User don't exist"],
-              message: "User don't exist"
+              errors: ["User doesn't exist"],
+              message: "User doesn't exist"
             })
             .code(401);
         }
