@@ -18,6 +18,11 @@ module.exports = db => {
       handler: actionsControllers.canUpload
     },
     {
+      path: "/api/actions/upload",
+      method: "POST",
+      handler: actionsControllers.upload
+    },
+    {
       path: "/api/actions/{code}",
       method: "GET",
       handler: actionsControllers.findCode

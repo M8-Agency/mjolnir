@@ -180,6 +180,25 @@ module.exports = db => {
       }
     },
 
+    async upload(req, h) {
+      try {
+        const tokenData = await jwt.verify(req.query.token, process.env.JWT_KEY);
+        const actionData = await Action.findOne({
+          where: {
+            code: "UPLOAD"
+          }
+        });
+        return actionData;
+      } catch (error) {
+        return h
+          .response({
+            errors: error.errors,
+            message: error.message
+          })
+          .code(400);
+      }
+    },
+
     async create(req, h) {
       try {
         const tokenData = await jwt.verify(req.payload.token, process.env.JWT_KEY);
